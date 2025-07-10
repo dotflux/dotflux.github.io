@@ -1,8 +1,8 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from "./components/Home/Home";
+import Index from "./components/Index";
 
 function App() {
-  const router = createBrowserRouter([{ index: true, element: <Home /> }]);
+  const router = createBrowserRouter([{ index: true, element: <Index /> }]);
 
   return <RouterProvider router={router} />;
 }
