@@ -152,12 +152,16 @@ const Contact = () => {
           ))}
         </div>
         <div className="text-lg text-gray-300 font-medium relative z-10">
-          <a
-            href="mailto:dotflux56@gmail.com"
-            className="underline hover:text-blue-400 transition-colors duration-200"
-          >
-            dotflux56@gmail.com
-          </a>
+          <div className="flex items-center gap-2">
+            <img src={gmail} alt="Email" className="w-6 h-6" />
+            <a
+              href="mailto:dotflux56@gmail.com"
+              className="underline hover:text-blue-400 transition-colors duration-200"
+            >
+              dotflux56@gmail.com
+            </a>
+          </div>
+
           <div className="flex items-center gap-2">
             <img src={discord} alt="Discord" className="w-6 h-6" />
             <p>dotflux</p>

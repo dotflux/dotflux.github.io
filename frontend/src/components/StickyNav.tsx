@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
-import dotfluxLogo from "../assets/dotflux.png";
+import dotfluxIcon from "../assets/dotflux_icon.jpg";
+// import icon from "../assets/icon.png";
 
 const sections = [
   { id: "about", label: "About" },
@@ -53,7 +54,7 @@ const StickyNav = () => {
       {/* Brand/Logo */}
       <div className="flex items-center gap-3 select-none">
         <img
-          src={dotfluxLogo}
+          src={dotfluxIcon}
           alt="Dotflux"
           className="w-9 h-9 rounded-full border-2 border-cyan-400 shadow-neon"
         />

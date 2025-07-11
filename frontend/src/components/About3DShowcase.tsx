@@ -72,10 +72,13 @@ export default function About3DShowcase() {
         />
         <WizardTable />
         <OrbitControls
-          enableZoom={true}
+          enableZoom={false}
           enablePan={true}
+          enableRotate={true}
           maxPolarAngle={Math.PI / 2.1}
           minPolarAngle={Math.PI / 2.7}
+          // Restrict vertical panning
+          screenSpacePanning={false}
         />
       </Canvas>
     </div>

@@ -30,3 +30,16 @@ body /* Global scrollbar styles */
 *::-webkit-scrollbar-thumb:hover {
   background-color: #3a3a3a; /* slight contrast on hover */
 }
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  background: #000;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  padding-bottom: env(safe-area-inset-bottom);
+}

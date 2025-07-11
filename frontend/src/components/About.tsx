@@ -6,6 +6,7 @@ import fiverr from "../assets/fiverr-svgrepo-com.svg";
 import gmail from "../assets/gmail.svg";
 import x from "../assets/x.svg";
 import About3DShowcase from "./About3DShowcase";
+// import icon from "../assets/icon.png";
 
 const socials = [
   { icon: github, url: "https://github.com/dotflux", label: "GitHub" },
@@ -19,7 +20,7 @@ const socials = [
   { icon: x, url: "https://x.com/dotflux56", label: "X" },
 ];
 
-const headingWords = ["Digital", "Wizard,", "At", "Your", "Service"];
+const headingWords = ["Digital Wizard,", "At Your Service."];
 
 const About = () => {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -60,6 +61,28 @@ const About = () => {
           delay: 0.9,
         }
       );
+      // Social icon GSAP hover (match Contact)
+      const iconEls = gsap.utils.toArray<HTMLElement>(
+        ".about-hero-social-icon"
+      );
+      iconEls.forEach((el) => {
+        el.addEventListener("mouseenter", () => {
+          gsap.to(el, {
+            scale: 1.15,
+            boxShadow: "0 0 24px 4px #60a5fa",
+            duration: 0.25,
+            ease: "power2.out",
+          });
+        });
+        el.addEventListener("mouseleave", () => {
+          gsap.to(el, {
+            scale: 1,
+            boxShadow: "0 0 0 0 #60a5fa",
+            duration: 0.25,
+            ease: "power2.in",
+          });
+        });
+      });
     }, heroRef);
     return () => ctx.revert();
   }, []);
@@ -83,13 +106,13 @@ const About = () => {
           ))}
         </h1>
         <p className="about-hero-desc text-xl text-gray-300 mb-2">
-          Hey, I’m <span className="text-cyan-400 font-bold">Anirudh</span> OR{" "}
-          <span className="text-red-400 font-bold">Dotflux</span> a 17 year old
-          developer who has experience of building{" "}
+          Hey, I’m <span className="text-cyan-400 font-bold">Anirudh</span>, or{" "}
+          <span className="text-red-400 font-bold">Dotflux</span>, a 17-year-old
+          developer who has experience building{" "}
           <span className="text-green-400 font-bold">
-            fullstack web applications
+            full-stack web applications
           </span>{" "}
-          with NestJs, React/NextJs, and more tools and skills in my belt.
+          with NestJS, React/Next.js, and more tools and skills under my belt.
         </p>
         <div className="about-hero-socials flex flex-wrap gap-3 mt-2 opacity-100">
           {socials.map((s) => (
@@ -99,14 +122,8 @@ const About = () => {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={s.label}
-              className="w-10 h-10 rounded-full flex items-center justify-center bg-[#23232a] text-white text-xl hover:bg-blue-500/80 hover:text-white transition-all duration-200 shadow-md about-hero-social-icon"
+              className="about-hero-social-icon w-10 h-10 rounded-full flex items-center justify-center bg-[#23232a] text-white text-xl transition-all duration-200 shadow-md"
               style={{ boxShadow: "0 0 0 0 #60a5fa" }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.boxShadow = "0 0 16px 2px #60a5fa")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.boxShadow = "0 0 0 0 #60a5fa")
-              }
             >
               <img src={s.icon} alt={s.label} className="w-6 h-6" />
             </a>
@@ -115,13 +132,13 @@ const About = () => {
         <div className="about-hero-cta flex flex-col w-full gap-4 mt-4 opacity-100 md:flex-row md:gap-6 md:w-auto">
           <a
             href="#projects"
-            className="w-full md:w-auto px-6 py-3 rounded-lg bg-white text-black font-semibold text-base md:text-lg shadow-lg transition-all duration-200 relative overflow-hidden group text-center hover:bg-black hover:text-white"
+            className="w-full md:w-auto px-6 py-3 rounded-lg bg-white text-black font-semibold text-base md:text-lg shadow-lg transition-all duration-200 relative overflow-hidden group text-center hover:bg-[#23232a] hover:text-white"
           >
             <span className="relative z-10">PROJECTS</span>
           </a>
           <a
             href="#contact"
-            className="w-full md:w-auto px-6 py-3 rounded-lg bg-white text-black font-semibold text-base md:text-lg shadow-lg transition-all duration-200 relative overflow-hidden group text-center hover:bg-black hover:text-white"
+            className="w-full md:w-auto px-6 py-3 rounded-lg bg-white text-black font-semibold text-base md:text-lg shadow-lg transition-all duration-200 relative overflow-hidden group text-center hover:bg-[#23232a] hover:text-white"
           >
             <span className="relative z-10">CONTACT ME</span>
           </a>

@@ -307,7 +307,7 @@ const Projects = () => {
             href="https://github.com/dotflux/Stratum"
             target="_blank"
             rel="noopener noreferrer"
-            className="xelyra-github-btn group w-full md:w-auto flex items-center justify-center gap-3 px-6 py-3 rounded-lg bg-white text-black font-bold text-base md:text-lg shadow-lg hover:bg-black hover:text-white transition-all duration-200 relative overflow-hidden mx-auto mt-12 text-center"
+            className="xelyra-github-btn group w-full md:w-auto flex items-center justify-center gap-3 px-6 py-3 rounded-lg bg-white text-black font-bold text-base md:text-lg shadow-lg hover:bg-[#23232a] hover:text-white transition-all duration-200 relative overflow-hidden mx-auto mt-12 text-center"
           >
             <span className="relative z-10">View Stratum on GitHub</span>
             <i className="fa-brands fa-github text-xl relative z-10 group-hover:scale-110 transition-transform duration-200"></i>
@@ -332,10 +332,10 @@ const Projects = () => {
       </h3>
       {renderBlocks(xelyraBlocks, "xelyra")}
       <a
-        href="https://github.com/dotflux/Xelyra"
+        href="https://github.com/dotflux56/xelyra"
         target="_blank"
         rel="noopener noreferrer"
-        className="xelyra-github-btn group w-full md:w-auto flex items-center justify-center gap-3 px-6 py-3 rounded-lg bg-white text-black font-bold text-base md:text-lg shadow-lg hover:bg-black hover:text-white transition-all duration-200 relative overflow-hidden mx-auto mt-12 text-center"
+        className="xelyra-github-btn group w-full md:w-auto flex items-center justify-center gap-3 px-6 py-3 rounded-lg bg-white text-black font-bold text-base md:text-lg shadow-lg hover:bg-[#23232a] hover:text-white transition-all duration-200 relative overflow-hidden mx-auto mt-12 text-center"
       >
         <span className="relative z-10">View Xelyra on GitHub</span>
         <i className="fa-brands fa-github text-xl relative z-10 group-hover:scale-110 transition-transform duration-200"></i>
@@ -361,10 +361,10 @@ const Projects = () => {
         </p>
       </div>
       <a
-        href="https://github.com/dotflux?tab=repositories"
+        href="https://github.com/dotflux56?tab=repositories"
         target="_blank"
         rel="noopener noreferrer"
-        className="more-projects-btn group w-full md:w-auto flex items-center justify-center gap-3 px-6 py-3 rounded-lg bg-white text-black font-bold text-base md:text-lg shadow-lg hover:bg-black hover:text-white transition-all duration-200 relative overflow-hidden mx-auto mt-16 text-center"
+        className="more-projects-btn group w-full md:w-auto flex items-center justify-center gap-3 px-6 py-3 rounded-lg bg-white text-black font-bold text-base md:text-lg shadow-lg hover:bg-[#23232a] hover:text-white transition-all duration-200 relative overflow-hidden mx-auto mt-16 text-center"
       >
         <span className="relative z-10">More Projects</span>
         <i className="fa-brands fa-github text-xl relative z-10 group-hover:scale-110 transition-transform duration-200"></i>

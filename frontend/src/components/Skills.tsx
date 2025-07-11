@@ -156,21 +156,15 @@ const Skills = () => {
         Skills
       </h2>
       <div className="flex flex-col gap-16 w-full max-w-5xl">
-        {skillGroups.map((group, gi) => (
+        {skillGroups.map((group) => (
           <div
             key={group.title}
-            className={`w-full flex flex-col items-center md:${
-              gi % 2 === 0 ? "items-start" : "items-end"
-            } transition-all`}
+            className="w-full flex flex-col items-center transition-all"
           >
             <h3 className="skills-section-title text-2xl md:text-3xl font-bold mb-8 pl-1 tracking-wide text-white drop-shadow-[0_0_16px_rgba(56,189,248,0.7)]">
               {group.title}
             </h3>
-            <div
-              className={`grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-10
-                ${gi % 2 === 0 ? "md:mr-auto" : "md:ml-auto"}
-                max-w-[80%]`}
-            >
+            <div className="flex flex-wrap justify-center gap-10 w-full max-w-[90%]">
               {group.skills.map((skill) => (
                 <div
                   key={skill.name}
