@@ -91,7 +91,7 @@ const About = () => {
     <section
       id="about"
       ref={heroRef}
-      className="relative z-10 min-h-[70vh] flex flex-col md:flex-row items-center justify-center px-8 gap-12 text-left mt-24 md:ml-8"
+      className="relative z-10 min-h-[70vh] flex flex-col md:flex-row items-center justify-center w-full max-w-screen-xl mx-auto px-4 md:px-8 lg:px-16 gap-12 text-left mt-24"
     >
       {/* Left: Text content */}
       <div className="flex-1 flex flex-col gap-6 items-start max-w-xl">

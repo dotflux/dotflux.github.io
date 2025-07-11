@@ -150,12 +150,12 @@ const Skills = () => {
     <section
       id="skills"
       ref={sectionRef}
-      className="relative z-10 py-24 px-8 flex flex-col items-center w-full"
+      className="relative z-10 py-24 w-full max-w-screen-xl mx-auto px-4 md:px-8 lg:px-16 flex flex-col items-center"
     >
       <h2 className="skills-heading text-4xl md:text-5xl font-extrabold text-white mb-14 tracking-tight drop-shadow-lg">
         Skills
       </h2>
-      <div className="flex flex-col gap-16 w-full max-w-5xl">
+      <div className="flex flex-col gap-16 w-full">
         {skillGroups.map((group) => (
           <div
             key={group.title}

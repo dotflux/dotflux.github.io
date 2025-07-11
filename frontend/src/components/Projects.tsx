@@ -321,9 +321,9 @@ const Projects = () => {
     <section
       id="projects"
       ref={sectionRef}
-      className="relative z-10 py-24 px-8 flex flex-col items-center w-full"
+      className="relative z-10 py-24 w-full max-w-screen-xl mx-auto px-4 md:px-8 lg:px-16 flex flex-col items-center"
     >
-      <h2 className="projects-heading text-4xl md:text-5xl font-extrabold text-white mb-16 tracking-tight drop-shadow-lg opacity-100">
+      <h2 className="projects-heading text-4xl md:text-5xl font-extrabold text-white mb-14 tracking-tight drop-shadow-lg">
         Projects
       </h2>
       {/* Xelyra Section */}
@@ -364,7 +364,7 @@ const Projects = () => {
         href="https://github.com/dotflux56?tab=repositories"
         target="_blank"
         rel="noopener noreferrer"
-        className="more-projects-btn group w-full md:w-auto flex items-center justify-center gap-3 px-6 py-3 rounded-lg bg-white text-black font-bold text-base md:text-lg shadow-lg hover:bg-[#23232a] hover:text-white transition-all duration-200 relative overflow-hidden mx-auto mt-16 text-center"
+        className="more-projects-btn group w-full md:w-auto flex items-center justify-center gap-3 px-6 py-3 rounded-lg bg-white text-black font-bold text-base md:text-lg shadow-lg hover:bg-[#23232a] hover:text-white transition-all duration-200 relative overflow-hidden mx-auto mt-6 text-center"
       >
         <span className="relative z-10">More Projects</span>
         <i className="fa-brands fa-github text-xl relative z-10 group-hover:scale-110 transition-transform duration-200"></i>

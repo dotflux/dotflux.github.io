@@ -122,7 +122,7 @@ const Contact = () => {
     <section
       id="contact"
       ref={sectionRef}
-      className="relative z-10 py-24 px-8 flex flex-col md:flex-row items-center justify-center gap-12 overflow-hidden"
+      className="relative z-10 py-12 w-full max-w-screen-xl mx-auto px-4 md:px-8 lg:px-16 flex flex-col md:flex-row items-center justify-center gap-12 overflow-hidden"
     >
       {/* Left: Heading, desc, socials */}
       <div

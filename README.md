@@ -1,6 +1,6 @@
 # My portfolio
 
-![Portfolio Screenshot](frontend/src/assets/front.png.jpg)
+![Portfolio Screenshot](frontend/src/assets/front_page.jpg)
 
 **Stack used:**
 
