@@ -6,13 +6,18 @@ import discord from "../assets/discord.svg";
 import linkedin from "../assets/linkedin.svg";
 import fiverr from "../assets/fiverr-svgrepo-com.svg";
 import gmail from "../assets/gmail.svg";
+import x from "../assets/x.svg";
 
 const socials = [
   { icon: github, url: "https://github.com/dotflux", label: "GitHub" },
-  { icon: discord, url: "#", label: "Discord" },
-  { icon: linkedin, url: "#", label: "LinkedIn" },
-  { icon: gmail, url: "mailto:your@email.com", label: "Email" },
-  { icon: fiverr, url: "#", label: "Fiverr" },
+  {
+    icon: linkedin,
+    url: "https://www.linkedin.com/in/anirudh-dhar-33b2a3373/",
+    label: "LinkedIn",
+  },
+  { icon: gmail, url: "mailto:dotflux56@gmail.com", label: "Email" },
+  { icon: fiverr, url: "https://www.fiverr.com/dotflux_", label: "Fiverr" },
+  { icon: x, url: "https://x.com/dotflux56", label: "X" },
 ];
 
 const Contact = () => {
@@ -122,10 +127,10 @@ const Contact = () => {
       {/* Left: Heading, desc, socials */}
       <div
         ref={leftColRef}
-        className="flex-1 flex flex-col items-start max-w-xl gap-6"
+        className="flex-1 flex flex-col items-start max-w-xl gap-6 md:ml-8"
       >
         <h2 className="contact-heading text-4xl md:text-5xl font-extrabold text-white mb-2 tracking-tight relative z-10">
-          Get in Touch
+          Contact
         </h2>
         <p className="contact-desc text-lg text-gray-300 font-medium mb-2">
           You can contact me on the following platforms. Let’s connect and build
@@ -148,11 +153,15 @@ const Contact = () => {
         </div>
         <div className="text-lg text-gray-300 font-medium relative z-10">
           <a
-            href="mailto:your@email.com"
+            href="mailto:dotflux56@gmail.com"
             className="underline hover:text-blue-400 transition-colors duration-200"
           >
-            your@email.com
+            dotflux56@gmail.com
           </a>
+          <div className="flex items-center gap-2">
+            <img src={discord} alt="Discord" className="w-6 h-6" />
+            <p>dotflux</p>
+          </div>
         </div>
       </div>
       {/* Right: Logo with glow */}

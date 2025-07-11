@@ -6,7 +6,7 @@ const STAR_SIZE = 2.2;
 const STAR_COLOR = "rgba(255,255,255,0.85)";
 const LINE_COLOR = "rgba(255,255,255,0.13)";
 const VELOCITY_SCALE = 0.25; // Lower = slower
-const FREEZE_AFTER = 2000; // ms (2 seconds)
+const FREEZE_AFTER = 1000; // ms (2 seconds)
 
 function randomVelocity() {
   return (Math.random() - 0.5) * 0.18 * VELOCITY_SCALE;

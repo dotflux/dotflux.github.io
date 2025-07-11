@@ -30,6 +30,10 @@ import cassandra from "../assets/cassandra.svg";
 import socketio from "../assets/socketio.svg";
 import nestjs from "../assets/nestjs.svg";
 import reactsvg from "../assets/react.svg";
+import godotengine from "../assets/godotengine.svg";
+import gnubash from "../assets/gnubash.svg";
+import linux from "../assets/linux.svg";
+import jinja from "../assets/jinja.svg";
 
 const skillGroups = [
   {
@@ -40,6 +44,7 @@ const skillGroups = [
       { name: "C", icon: c },
       { name: "C++", icon: cplusplus },
       { name: "LUA", icon: lua },
+      { name: "Godot", icon: godotengine },
     ],
   },
   {
@@ -61,6 +66,7 @@ const skillGroups = [
       { name: "NestJS", icon: nestjs },
       { name: "Express", icon: express },
       { name: "Flask", icon: flask },
+      { name: "Jinja", icon: jinja },
       { name: "Socket.io", icon: socketio },
       { name: "JWT", icon: jwt },
     ],
@@ -83,6 +89,8 @@ const skillGroups = [
       { name: "GitHub", icon: github },
       { name: "Prometheus", icon: prometheus },
       { name: "Grafana", icon: grafana },
+      { name: "Bash", icon: gnubash },
+      { name: "Linux", icon: linux },
     ],
   },
 ];

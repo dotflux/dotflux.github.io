@@ -8,7 +8,7 @@ import StickyNav from "./StickyNav";
 
 const Index = () => {
   return (
-    <div className="relative min-h-screen w-full overflow-x-hidden flex flex-col">
+    <div className="relative min-h-[100dvh] w-full overflow-x-hidden flex flex-col">
       <StickyNav />
       <AnimatedBackground />
       <main className="relative z-10 flex flex-col gap-0 flex-1">

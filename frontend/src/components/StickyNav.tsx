@@ -12,6 +12,7 @@ const sections = [
 const StickyNav = () => {
   const navRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState("about");
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -46,7 +47,7 @@ const StickyNav = () => {
   return (
     <nav
       ref={navRef}
-      className="fixed top-0 left-0 w-full z-50 border-b border-[#23243a]/60 h-16 flex items-center justify-between px-6 md:px-12 shadow-xl"
+      className="fixed top-0 left-0 w-full z-50 border-b border-[#23243a]/60 h-16 flex items-center justify-between px-6 md:px-12 shadow-xl bg-[#0a0a0a]/90 backdrop-blur"
       style={{ minHeight: 56 }}
     >
       {/* Brand/Logo */}
@@ -60,13 +61,36 @@ const StickyNav = () => {
           dotflux
         </span>
       </div>
+      {/* Hamburger for mobile */}
+      <button
+        className="md:hidden flex items-center justify-center ml-2 text-cyan-300 focus:outline-none z-50"
+        onClick={() => setMenuOpen((v) => !v)}
+        aria-label="Toggle navigation menu"
+      >
+        <svg width="28" height="28" fill="none" viewBox="0 0 24 24">
+          <path
+            stroke="currentColor"
+            strokeWidth="2.2"
+            strokeLinecap="round"
+            d={menuOpen ? "M6 18L18 6M6 6l12 12" : "M4 7h16M4 12h16M4 17h16"}
+          />
+        </svg>
+      </button>
       {/* Centered Links */}
-      <div className="flex-1 flex items-center justify-center gap-8">
+      <div
+        className={`flex-1 md:flex items-center justify-center gap-8 transition-all duration-300
+          ${
+            menuOpen
+              ? "flex flex-col absolute top-16 left-0 w-full bg-[#0a0a0a]/95 py-6 z-40"
+              : "hidden"
+          } md:flex-row md:bg-transparent md:py-0 md:relative md:flex`}
+      >
         {sections.map((s) => (
           <a
             key={s.id}
             href={`#${s.id}`}
-            className={`px-2 py-1 font-semibold text-base transition-all duration-200 focus:outline-none
+            onClick={() => setMenuOpen(false)}
+            className={`px-2 py-2 font-semibold text-base transition-all duration-200 focus:outline-none text-center
               ${
                 active === s.id
                   ? "text-cyan-300 border-b-2 border-cyan-400 shadow-none"
