@@ -134,13 +134,13 @@ const About = () => {
             href="#projects"
             className="w-full md:w-auto px-6 py-3 rounded-lg bg-white text-black font-semibold text-base md:text-lg shadow-lg transition-all duration-200 relative overflow-hidden group text-center hover:bg-[#23232a] hover:text-white"
           >
-            <span className="relative z-10">PROJECTS</span>
+            <span className="relative z-10">Projects</span>
           </a>
           <a
             href="#contact"
             className="w-full md:w-auto px-6 py-3 rounded-lg bg-white text-black font-semibold text-base md:text-lg shadow-lg transition-all duration-200 relative overflow-hidden group text-center hover:bg-[#23232a] hover:text-white"
           >
-            <span className="relative z-10">CONTACT ME</span>
+            <span className="relative z-10">Contact Me</span>
           </a>
         </div>
       </div>
