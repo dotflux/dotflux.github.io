@@ -31,7 +31,7 @@ function WizardTable() {
       const fitHeightDistance = modelHeight / (2 * Math.tan(fov / 2));
       const fitWidthDistance = modelWidth / (2 * Math.tan(fov / 2)) / aspect;
       const distance = Math.max(fitHeightDistance, fitWidthDistance) + 0.5;
-      const margin = 2.2; // 70% extra space
+      const margin = 1.2; // 70% extra space
       // Set camera to a 3/4 angle (front-right, slightly above)
       const angle = Math.PI / 4; // 45 degrees
       const camX = Math.cos(angle) * distance * margin;
