@@ -1,12 +1,12 @@
 import { useRef, useEffect } from "react";
 
-const STAR_COUNT = 48;
+const STAR_COUNT = 32;
 const LINE_DISTANCE = 120;
 const STAR_SIZE = 2.2;
 const STAR_COLOR = "rgba(255,255,255,0.85)";
 const LINE_COLOR = "rgba(255,255,255,0.13)";
-const VELOCITY_SCALE = 0.25; // Lower = slower
-const FREEZE_AFTER = 1000; // ms (2 seconds)
+const VELOCITY_SCALE = 0.25;
+const FREEZE_AFTER = 1000;
 
 function randomVelocity() {
   return (Math.random() - 0.5) * 0.18 * VELOCITY_SCALE;
@@ -25,17 +25,19 @@ const AnimatedBackground = () => {
         baseY: y,
         vx: randomVelocity(),
         vy: randomVelocity(),
-        pulse: Math.random() * Math.PI * 2, // phase offset for pulsing
-        twinkle: 0, // twinkle state
+        pulse: Math.random() * Math.PI * 2,
+        twinkle: 0,
         floatPhase: Math.random() * Math.PI * 2,
-        floatSpeed: 18000 + Math.random() * 10000, // slower, wavier
-        floatAmpY: 0.025 + Math.random() * 0.025, // more pronounced Y
-        floatAmpX: 0.012 + Math.random() * 0.012, // subtle X
+        floatSpeed: 18000 + Math.random() * 10000,
+        floatAmpY: 0.025 + Math.random() * 0.025,
+        floatAmpX: 0.012 + Math.random() * 0.012,
       };
     })
   );
   const lines = useRef<{ a: number; b: number; phase: number }[]>([]);
   const frozen = useRef(false);
+  const lastLineUpdate = useRef(0);
+  const LINE_UPDATE_INTERVAL = 100;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -76,14 +78,20 @@ const AnimatedBackground = () => {
     function draw(time: number) {
       if (!ctx) return;
       ctx.clearRect(0, 0, width, height);
+
+      // Batch star rendering
+      ctx.save();
+      ctx.shadowColor = "#38bdf8";
+
       // Animate stars
       for (let i = 0; i < stars.current.length; i++) {
         const star = stars.current[i];
         let glow = 1;
         let y = star.y;
         let x = star.x;
+
         if (frozen.current) {
-          // Wavy float after freeze (update x and y)
+          // Wavy float after freeze
           y =
             star.baseY +
             star.floatAmpY * Math.sin(time / star.floatSpeed + star.floatPhase);
@@ -93,61 +101,69 @@ const AnimatedBackground = () => {
               Math.cos(time / (star.floatSpeed * 0.7) + star.floatPhase * 1.3);
           star.y = y;
           star.x = x;
-          // Pulse glow (more intense and faster)
+
+          // Pulse glow
           glow = 0.5 + 1.0 * Math.sin(time / 500 + star.pulse);
-          // Occasional twinkle (less frequent, lasts longer)
+
+          // Occasional twinkle (reduced frequency)
           if (star.twinkle > 0) {
             glow += star.twinkle;
             star.twinkle -= 0.025;
             if (star.twinkle < 0) star.twinkle = 0;
-          } else if (Math.random() < 0.002) {
+          } else if (Math.random() < 0.001) {
             star.twinkle = 1.5 + Math.random() * 1.0;
           }
         }
-        ctx.save();
+
+        // Reduced shadow blur for better performance
+        ctx.shadowBlur = 8 * glow;
+        ctx.globalAlpha = 0.7 * Math.max(0.5, glow);
+
         ctx.beginPath();
         ctx.arc(x * width, y * height, STAR_SIZE, 0, 2 * Math.PI);
         ctx.fillStyle = STAR_COLOR;
-        ctx.shadowColor = "#38bdf8"; // blue tint
-        ctx.shadowBlur = 16 * glow;
-        ctx.globalAlpha = 0.7 * Math.max(0.5, glow);
         ctx.fill();
-        ctx.globalAlpha = 1;
-        ctx.shadowBlur = 0;
-        ctx.restore();
       }
-      // Animate lines
+
+      ctx.restore();
+
+      // Animate lines with reduced frequency
       if (frozen.current) {
-        // Recompute lines every frame based on floating positions
-        for (let i = 0; i < stars.current.length; i++) {
-          for (let j = i + 1; j < stars.current.length; j++) {
-            const a = stars.current[i];
-            const b = stars.current[j];
-            const dx = (a.x - b.x) * width;
-            const dy = (a.y - b.y) * height;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < LINE_DISTANCE) {
-              // Pulse opacity (stronger and faster)
-              const phase = (i * 13 + j * 7) % 100;
-              const pulse = 0.5 + 0.5 * Math.abs(Math.sin(time / 700 + phase));
-              ctx.save();
-              ctx.beginPath();
-              ctx.moveTo(a.x * width, a.y * height);
-              ctx.lineTo(b.x * width, b.y * height);
-              ctx.strokeStyle = LINE_COLOR;
-              ctx.globalAlpha = 0.32 * pulse; // more visible
-              ctx.lineWidth = 2.1; // thicker
-              ctx.shadowColor = "#38bdf8";
-              ctx.shadowBlur = 18 * pulse;
-              ctx.stroke();
-              ctx.globalAlpha = 1;
-              ctx.shadowBlur = 0;
-              ctx.restore();
-            }
-          }
+        // Only update lines periodically instead of every frame
+        if (time - lastLineUpdate.current > LINE_UPDATE_INTERVAL) {
+          computeLines();
+          lastLineUpdate.current = time;
         }
+
+        // Draw cached lines
+        ctx.save();
+        ctx.shadowColor = "#38bdf8";
+
+        for (const line of lines.current) {
+          const a = stars.current[line.a];
+          const b = stars.current[line.b];
+
+          // Pulse opacity
+          const phase = (line.a * 13 + line.b * 7) % 100;
+          const pulse = 0.5 + 0.5 * Math.abs(Math.sin(time / 700 + phase));
+
+          ctx.beginPath();
+          ctx.moveTo(a.x * width, a.y * height);
+          ctx.lineTo(b.x * width, b.y * height);
+          ctx.strokeStyle = LINE_COLOR;
+          ctx.globalAlpha = 0.32 * pulse;
+          ctx.lineWidth = 2.1;
+          ctx.shadowBlur = 12 * pulse;
+          ctx.stroke();
+        }
+
+        ctx.restore();
       } else {
-        // Draw lines between close stars (static alpha)
+        // Draw static lines
+        ctx.save();
+        ctx.globalAlpha = 0.13;
+        ctx.lineWidth = 1.1;
+
         for (let i = 0; i < stars.current.length; i++) {
           for (let j = i + 1; j < stars.current.length; j++) {
             const a = stars.current[i];
@@ -160,13 +176,12 @@ const AnimatedBackground = () => {
               ctx.moveTo(a.x * width, a.y * height);
               ctx.lineTo(b.x * width, b.y * height);
               ctx.strokeStyle = LINE_COLOR;
-              ctx.lineWidth = 1.1;
-              ctx.globalAlpha = 0.13;
               ctx.stroke();
-              ctx.globalAlpha = 1;
             }
           }
         }
+
+        ctx.restore();
       }
     }
 
