@@ -332,7 +332,7 @@ const Projects = () => {
       </h3>
       {renderBlocks(xelyraBlocks, "xelyra")}
       <a
-        href="https://github.com/dotflux56/xelyra"
+        href="https://github.com/dotflux/xelyra"
         target="_blank"
         rel="noopener noreferrer"
         className="xelyra-github-btn group w-full md:w-auto flex items-center justify-center gap-3 px-6 py-3 rounded-lg bg-white text-black font-bold text-base md:text-lg shadow-lg hover:bg-[#23232a] hover:text-white transition-all duration-200 relative overflow-hidden mx-auto mt-12 text-center"
@@ -361,7 +361,7 @@ const Projects = () => {
         </p>
       </div>
       <a
-        href="https://github.com/dotflux56?tab=repositories"
+        href="https://github.com/dotflux?tab=repositories"
         target="_blank"
         rel="noopener noreferrer"
         className="more-projects-btn group w-full md:w-auto flex items-center justify-center gap-3 px-6 py-3 rounded-lg bg-white text-black font-bold text-base md:text-lg shadow-lg hover:bg-[#23232a] hover:text-white transition-all duration-200 relative overflow-hidden mx-auto mt-6 text-center"
