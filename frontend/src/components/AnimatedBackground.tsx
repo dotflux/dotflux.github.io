@@ -6,7 +6,6 @@ const STAR_SIZE = 2.2;
 const STAR_COLOR = "rgba(255,255,255,0.85)";
 const LINE_COLOR = "rgba(255,255,255,0.13)";
 const VELOCITY_SCALE = 0.25;
-const FREEZE_AFTER = 1000;
 
 function randomVelocity() {
   return (Math.random() - 0.5) * 0.18 * VELOCITY_SCALE;
@@ -48,7 +47,7 @@ const AnimatedBackground = () => {
     })
   );
   const lines = useRef<{ a: number; b: number; phase: number }[]>([]);
-  const frozen = useRef(false);
+  const frozen = useRef(true); // Start frozen immediately
   const lastLineUpdate = useRef(0);
   const LINE_UPDATE_INTERVAL = 100;
   const nebulaRef = useRef<
@@ -289,24 +288,8 @@ const AnimatedBackground = () => {
     resize();
     window.addEventListener("resize", resize);
 
-    // Freeze animation after a delay
-    setTimeout(() => {
-      frozen.current = true;
-      computeLines();
-    }, FREEZE_AFTER);
-
     function animate(time: number) {
       if (!ctx) return;
-      if (!frozen.current) {
-        // Move and draw stars
-        for (const star of stars.current) {
-          star.x += star.vx;
-          star.y += star.vy;
-          // Bounce off edges
-          if (star.x < 0 || star.x > 1) star.vx *= -1;
-          if (star.y < 0 || star.y > 1) star.vy *= -1;
-        }
-      }
       draw(time);
       animationId = requestAnimationFrame(animate);
     }
