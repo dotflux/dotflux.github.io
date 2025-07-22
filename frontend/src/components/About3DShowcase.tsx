@@ -57,10 +57,14 @@ function WizardTable() {
   );
 }
 
-export default function About3DShowcase() {
+export default function About3DShowcase({ disableInteraction = false }) {
   return (
     <div className="w-full max-w-[500px] aspect-square min-h-[320px] mx-auto">
-      <Canvas camera={{ position: [0, 1.1, 2.2], fov: 32 }} shadows>
+      <Canvas
+        camera={{ position: [0, 1.1, 2.2], fov: 32 }}
+        shadows
+        style={disableInteraction ? { pointerEvents: "none" } : {}}
+      >
         <ambientLight intensity={1.0} />
         <directionalLight position={[2, 4, 2]} intensity={0.8} castShadow />
         <spotLight
@@ -73,8 +77,8 @@ export default function About3DShowcase() {
         <WizardTable />
         <OrbitControls
           enableZoom={false}
-          enablePan={true}
-          enableRotate={true}
+          enablePan={!disableInteraction}
+          enableRotate={!disableInteraction}
           maxPolarAngle={Math.PI / 2.1}
           minPolarAngle={Math.PI / 2.7}
           // Restrict vertical panning

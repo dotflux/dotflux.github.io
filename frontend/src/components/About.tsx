@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import github from "../assets/github.svg";
 import linkedin from "../assets/linkedin.svg";
@@ -24,6 +24,7 @@ const headingWords = ["Digital Wizard,", "At Your Service."];
 
 const About = () => {
   const heroRef = useRef<HTMLDivElement>(null);
+  const [disable3DInteraction, setDisable3DInteraction] = useState(false);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -87,6 +88,13 @@ const About = () => {
     return () => ctx.revert();
   }, []);
 
+  useEffect(() => {
+    const checkMobile = () => setDisable3DInteraction(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   return (
     <section
       id="about"
@@ -147,7 +155,7 @@ const About = () => {
       {/* Right: Animated blurred orb accent + Info Card */}
       <div className="flex-1 flex items-center justify-center w-full relative min-h-[320px]">
         {/* Remove blurred orb and fun fact card, add 3D wizard hat */}
-        <About3DShowcase />
+        <About3DShowcase disableInteraction={disable3DInteraction} />
       </div>
     </section>
   );

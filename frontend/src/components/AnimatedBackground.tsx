@@ -12,6 +12,19 @@ function randomVelocity() {
   return (Math.random() - 0.5) * 0.18 * VELOCITY_SCALE;
 }
 
+const NEBULA_COLORS = [
+  "rgba(56,189,248,0.10)",
+  "rgba(167,139,250,0.10)",
+  "rgba(236,72,153,0.08)",
+];
+
+const PARTICLE_COUNT = 16;
+const PARTICLE_COLORS = ["#a78bfa", "#38bdf8", "#fff", "#4ade80", "#f87171"];
+
+function lerp(a: number, b: number, t: number) {
+  return a + (b - a) * t;
+}
+
 const AnimatedBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const stars = useRef(
@@ -38,6 +51,27 @@ const AnimatedBackground = () => {
   const frozen = useRef(false);
   const lastLineUpdate = useRef(0);
   const LINE_UPDATE_INTERVAL = 100;
+  const nebulaRef = useRef<
+    { x: number; y: number; r: number; color: string }[]
+  >([]);
+
+  const scrollParticles = useRef(
+    Array.from({ length: PARTICLE_COUNT }, () => {
+      const color =
+        PARTICLE_COLORS[Math.floor(Math.random() * PARTICLE_COLORS.length)];
+      return {
+        x0: Math.random(),
+        y0: Math.random(),
+        x1: Math.random(),
+        y1: Math.random(),
+        color,
+        phase: Math.random() * Math.PI * 2,
+        speed: 2000 + Math.random() * 2000,
+      };
+    })
+  );
+  const scrollProgress = useRef(0);
+  const lastScrollY = useRef(window.scrollY || 0);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -55,6 +89,13 @@ const AnimatedBackground = () => {
       canvas.width = width;
       canvas.height = height;
       if (frozen.current) draw(0);
+      // Nebula positions (static)
+      nebulaRef.current = Array.from({ length: 3 }, (_, i) => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        r: 220 + Math.random() * 200,
+        color: NEBULA_COLORS[i],
+      }));
     }
 
     // Precompute lines for static mode
@@ -75,10 +116,68 @@ const AnimatedBackground = () => {
       lines.current = arr;
     }
 
+    function onScroll() {
+      const maxScroll = Math.max(
+        1,
+        document.body.scrollHeight - window.innerHeight
+      );
+      const y = window.scrollY || 0;
+      scrollProgress.current = Math.max(0, Math.min(1, y / maxScroll));
+      lastScrollY.current = y;
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
     function draw(time: number) {
       if (!ctx) return;
       ctx.clearRect(0, 0, width, height);
 
+      // --- Nebula/gradient background (static) ---
+      nebulaRef.current.forEach((n) => {
+        const grad = ctx.createRadialGradient(
+          n.x,
+          n.y,
+          n.r * 0.2,
+          n.x,
+          n.y,
+          n.r
+        );
+        grad.addColorStop(0, n.color);
+        grad.addColorStop(1, "rgba(0,0,0,0)");
+        ctx.save();
+        ctx.globalAlpha = 1;
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.r, 0, 2 * Math.PI);
+        ctx.closePath();
+        ctx.fillStyle = grad;
+        ctx.filter = "blur(32px)";
+        ctx.fill();
+        ctx.filter = "none";
+        ctx.restore();
+      });
+      // --- End nebula ---
+
+      // --- Scroll-reactive particles ---
+      const t = scrollProgress.current;
+      for (const p of scrollParticles.current) {
+        const px = lerp(p.x0, p.x1, t) * width;
+        const py = lerp(p.y0, p.y1, t) * height;
+        // Twinkle effect
+        const twinkle =
+          0.7 + 0.6 * Math.abs(Math.sin((time + p.phase * 1000) / p.speed));
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(px, py, 2.2, 0, 2 * Math.PI);
+        ctx.shadowColor = p.color;
+        ctx.shadowBlur = 12 * twinkle;
+        ctx.globalAlpha = 0.5 + 0.5 * twinkle;
+        ctx.fillStyle = p.color;
+        ctx.fill();
+        ctx.restore();
+      }
+      // --- End scroll-reactive particles ---
+
+      // --- Draw stars and lines (no scroll/rotate) ---
       // Batch star rendering
       ctx.save();
       ctx.shadowColor = "#38bdf8";
@@ -183,6 +282,8 @@ const AnimatedBackground = () => {
 
         ctx.restore();
       }
+      // --- End scroll/rotate transform ---
+      ctx.restore();
     }
 
     resize();
@@ -212,6 +313,7 @@ const AnimatedBackground = () => {
     animate(0);
     return () => {
       window.removeEventListener("resize", resize);
+      window.removeEventListener("scroll", onScroll);
       cancelAnimationFrame(animationId);
     };
   }, []);
