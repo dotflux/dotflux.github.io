@@ -75,7 +75,7 @@ const showcase = [
     desc: "Automated load testing with 500 simulated users performing all major actions like creating servers, groups, DMs, sending/accepting friend requests, sending messages, and logging in, reaching up to 3 million messages.",
   },
   {
-    heading: "DatabaseSchema",
+    heading: "Database Schema",
     media: schema,
     desc: "This flowchart represents the database schema of Xelyra, it is a simple and easy to understand schema that is designed to be easy to use and understand, with a focus on simplicity and ease of use.",
   },
