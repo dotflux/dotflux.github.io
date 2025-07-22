@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import landingPage from "../assets/xelyraShowcases/landing_page.gif";
 import developerPage from "../assets/xelyraShowcases/developer_page.gif";
 import sdkDocs from "../assets/xelyraShowcases/sdk_documentation.gif";
@@ -15,6 +15,7 @@ import openFiles from "../assets/xelyraShowcases/open_file_deceptors.png";
 import schema from "../assets/xelyraShowcases/schema.png";
 import AngleLeft from "../assets/angleLeft.svg";
 import AngleRight from "../assets/angleRight.svg";
+import Loader from "./Loader";
 
 type Props = { open: boolean; onClose: () => void };
 
@@ -93,6 +94,10 @@ const showcase = [
 
 export default function XelyraModal({ open, onClose }: Props) {
   const [idx, setIdx] = useState(0);
+  const [imgLoading, setImgLoading] = useState(true);
+  useEffect(() => {
+    setImgLoading(true);
+  }, [idx, open]);
   if (!open) return null;
   const block = showcase[idx];
   return (
@@ -109,7 +114,7 @@ export default function XelyraModal({ open, onClose }: Props) {
         <div className="text-xl font-bold text-white text-center w-full mb-4">
           {block.heading}
         </div>
-        <div className="relative w-full flex flex-col items-center">
+        <div className="relative w-full flex flex-col items-center min-h-[140px] justify-center">
           <button
             onClick={() =>
               setIdx((idx - 1 + showcase.length) % showcase.length)
@@ -127,15 +132,34 @@ export default function XelyraModal({ open, onClose }: Props) {
                   src={m}
                   alt={block.heading}
                   className="w-32 h-32 object-contain rounded-lg"
+                  style={{ display: imgLoading ? "none" : "block" }}
+                  onLoad={() => {
+                    // Only hide loader when last image loads
+                    if (i === block.media.length - 1) setImgLoading(false);
+                  }}
                 />
               ))}
+              {imgLoading && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <Loader />
+                </div>
+              )}
             </div>
           ) : (
-            <img
-              src={block.media}
-              alt={block.heading}
-              className="w-full max-h-64 object-contain rounded-lg mb-4"
-            />
+            <>
+              <img
+                src={block.media}
+                alt={block.heading}
+                className="w-full max-h-64 object-contain rounded-lg mb-4"
+                style={{ display: imgLoading ? "none" : "block" }}
+                onLoad={() => setImgLoading(false)}
+              />
+              {imgLoading && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <Loader />
+                </div>
+              )}
+            </>
           )}
           <button
             onClick={() => setIdx((idx + 1) % showcase.length)}

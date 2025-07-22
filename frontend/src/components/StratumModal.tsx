@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import landingPage from "../assets/stratumShowcases/landing_page.png";
 import createWorkspace from "../assets/stratumShowcases/create_workspace.png";
 import workspaces from "../assets/stratumShowcases/workspaces.png";
@@ -6,6 +6,7 @@ import tasks from "../assets/stratumShowcases/tasks.png";
 import billing from "../assets/stratumShowcases/billing.png";
 import AngleLeft from "../assets/angleLeft.svg";
 import AngleRight from "../assets/angleRight.svg";
+import Loader from "./Loader";
 
 const showcase = [
   {
@@ -39,6 +40,10 @@ type Props = { open: boolean; onClose: () => void };
 
 export default function StratumModal({ open, onClose }: Props) {
   const [idx, setIdx] = useState(0);
+  const [imgLoading, setImgLoading] = useState(true);
+  useEffect(() => {
+    setImgLoading(true);
+  }, [idx, open]);
   if (!open) return null;
   const block = showcase[idx];
   return (
@@ -55,7 +60,7 @@ export default function StratumModal({ open, onClose }: Props) {
         <div className="text-xl font-bold text-white text-center w-full mb-4">
           {block.heading}
         </div>
-        <div className="relative w-full flex flex-col items-center">
+        <div className="relative w-full flex flex-col items-center min-h-[140px] justify-center">
           <button
             onClick={() =>
               setIdx((idx - 1 + showcase.length) % showcase.length)
@@ -65,11 +70,20 @@ export default function StratumModal({ open, onClose }: Props) {
           >
             <img src={AngleLeft} alt="Previous" className="w-6 h-6" />
           </button>
-          <img
-            src={block.media}
-            alt={block.heading}
-            className="w-full max-h-64 object-contain rounded-lg mb-4"
-          />
+          <>
+            <img
+              src={block.media}
+              alt={block.heading}
+              className="w-full max-h-64 object-contain rounded-lg mb-4"
+              style={{ display: imgLoading ? "none" : "block" }}
+              onLoad={() => setImgLoading(false)}
+            />
+            {imgLoading && (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <Loader />
+              </div>
+            )}
+          </>
           <button
             onClick={() => setIdx((idx + 1) % showcase.length)}
             className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-9 h-9 flex items-center justify-center rounded-full bg-black/30 hover:bg-cyan-400/20 text-white text-xl transition-all focus:outline-none border border-white/10"
