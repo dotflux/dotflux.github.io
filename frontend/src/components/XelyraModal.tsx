@@ -16,6 +16,7 @@ import schema from "../assets/xelyraShowcases/schema.png";
 import AngleLeft from "../assets/angleLeft.svg";
 import AngleRight from "../assets/angleRight.svg";
 import Loader from "./Loader";
+import crossIcon from "../assets/cross.svg";
 
 type Props = { open: boolean; onClose: () => void };
 
@@ -107,9 +108,10 @@ export default function XelyraModal({ open, onClose }: Props) {
       <div className="bg-[#181824] rounded-xl shadow-2xl max-w-lg w-full p-6 relative flex flex-col items-center z-10">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-white text-2xl font-bold"
+          className="absolute top-4 right-4 text-white text-2xl font-bold w-9 h-9 flex items-center justify-center rounded-full bg-red-400/15 hover:bg-red-500/30 transition-all focus:outline-none border border-white/10 z-10"
+          aria-label="Close"
         >
-          ×
+          <img src={crossIcon} alt="Close" className="w-5 h-5" />
         </button>
         <div className="text-xl font-bold text-white text-center w-full mb-4">
           {block.heading}

@@ -115,8 +115,9 @@ const Projects = () => {
           Want to see more?
         </h3>
         <p className="text-gray-300 text-lg mb-8 text-center max-w-xl">
-          Explore all my open source projects and experiments on GitHub. There’s
-          plenty more to discover!
+          Explore all my open source projects and experiments on GitHub.
+          <br />
+          There’s plenty more to discover!
         </p>
       </div>
       <a

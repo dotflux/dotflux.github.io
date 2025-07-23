@@ -50,8 +50,7 @@ function WizardTable() {
     }
   });
   return (
-    <group ref={group} position={[0, 0.3, 0]}>
-      {/* Table: auto-centered and scaled, shifted up */}
+    <group ref={group} position={[0, 0.1, 0]}>
       <primitive object={table.scene} />
     </group>
   );
