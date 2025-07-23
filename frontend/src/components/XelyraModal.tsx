@@ -1,4 +1,8 @@
 import { useState, useEffect } from "react";
+import AngleLeft from "../assets/angleLeft.svg";
+import AngleRight from "../assets/angleRight.svg";
+import Loader from "./Loader";
+import crossIcon from "../assets/cross.svg";
 import landingPage from "../assets/xelyraShowcases/landing_page.gif";
 import developerPage from "../assets/xelyraShowcases/developer_page.gif";
 import sdkDocs from "../assets/xelyraShowcases/sdk_documentation.gif";
@@ -7,18 +11,12 @@ import meetXyn from "../assets/xelyraShowcases/meet_xyn.png";
 import xynPfp from "../assets/xelyraShowcases/xyn_changes_generated_pfp.gif";
 import xynByFile from "../assets/xelyraShowcases/xyn_changes_byfile.png";
 import xynName from "../assets/xelyraShowcases/xyn_changes_name.gif";
-import createServer from "../assets/xelyraShowcases/create_server.gif";
-import addFriends from "../assets/xelyraShowcases/add_friends.gif";
 import eventLoop from "../assets/xelyraShowcases/event_loop.png";
 import cpuUsage from "../assets/xelyraShowcases/cpu_usage_intel_i5_3rd.png";
 import openFiles from "../assets/xelyraShowcases/open_file_deceptors.png";
 import schema from "../assets/xelyraShowcases/schema.png";
-import AngleLeft from "../assets/angleLeft.svg";
-import AngleRight from "../assets/angleRight.svg";
-import Loader from "./Loader";
-import crossIcon from "../assets/cross.svg";
-
-type Props = { open: boolean; onClose: () => void };
+import createServer from "../assets/xelyraShowcases/create_server.gif";
+import addFriends from "../assets/xelyraShowcases/add_friends.gif";
 
 const showcase = [
   {
@@ -93,7 +91,9 @@ const showcase = [
   },
 ];
 
-export default function XelyraModal({ open, onClose }: Props) {
+type Props = { open: boolean; onClose: () => void };
+
+export function XelyraModal({ open, onClose }: Props) {
   const [idx, setIdx] = useState(0);
   const [imgLoading, setImgLoading] = useState(true);
   useEffect(() => {
@@ -126,43 +126,18 @@ export default function XelyraModal({ open, onClose }: Props) {
           >
             <img src={AngleLeft} alt="Previous" className="w-6 h-6" />
           </button>
-          {Array.isArray(block.media) ? (
-            <div className="flex flex-wrap gap-2 justify-center w-full mb-4">
-              {block.media.map((m, i) => (
-                <img
-                  key={i}
-                  src={m}
-                  alt={block.heading}
-                  className="w-32 h-32 object-contain rounded-lg"
-                  style={{ display: imgLoading ? "none" : "block" }}
-                  onLoad={() => {
-                    // Only hide loader when last image loads
-                    if (i === block.media.length - 1) setImgLoading(false);
-                  }}
-                />
-              ))}
-              {imgLoading && (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <Loader />
-                </div>
-              )}
+          {imgLoading && (
+            <div className="absolute inset-0 flex items-center justify-center min-h-[100px]">
+              <Loader />
             </div>
-          ) : (
-            <>
-              <img
-                src={block.media}
-                alt={block.heading}
-                className="w-full max-h-64 object-contain rounded-lg mb-4"
-                style={{ display: imgLoading ? "none" : "block" }}
-                onLoad={() => setImgLoading(false)}
-              />
-              {imgLoading && (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <Loader />
-                </div>
-              )}
-            </>
           )}
+          <img
+            src={block.media}
+            alt={block.heading}
+            className="w-full max-h-64 object-contain rounded-lg mb-4"
+            style={{ display: imgLoading ? "none" : "block" }}
+            onLoad={() => setImgLoading(false)}
+          />
           <button
             onClick={() => setIdx((idx + 1) % showcase.length)}
             className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-9 h-9 flex items-center justify-center rounded-full bg-black/30 hover:bg-cyan-400/20 text-white text-xl transition-all focus:outline-none border border-white/10"
@@ -186,3 +161,8 @@ export default function XelyraModal({ open, onClose }: Props) {
     </div>
   );
 }
+
+import React from "react";
+export const LazyXelyraModal = React.lazy(() => import("./XelyraModal"));
+
+export default XelyraModal;

@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
+import AngleLeft from "../assets/angleLeft.svg";
+import AngleRight from "../assets/angleRight.svg";
+import Loader from "./Loader";
+import crossIcon from "../assets/cross.svg";
 import landingPage from "../assets/stratumShowcases/landing_page.png";
 import createWorkspace from "../assets/stratumShowcases/create_workspace.png";
 import workspaces from "../assets/stratumShowcases/workspaces.png";
 import tasks from "../assets/stratumShowcases/tasks.png";
 import billing from "../assets/stratumShowcases/billing.png";
-import AngleLeft from "../assets/angleLeft.svg";
-import AngleRight from "../assets/angleRight.svg";
-import Loader from "./Loader";
-import crossIcon from "../assets/cross.svg";
+
 const showcase = [
   {
     heading: "Landing Page",
@@ -38,7 +39,7 @@ const showcase = [
 
 type Props = { open: boolean; onClose: () => void };
 
-export default function StratumModal({ open, onClose }: Props) {
+export function StratumModal({ open, onClose }: Props) {
   const [idx, setIdx] = useState(0);
   const [imgLoading, setImgLoading] = useState(true);
   useEffect(() => {
@@ -71,20 +72,18 @@ export default function StratumModal({ open, onClose }: Props) {
           >
             <img src={AngleLeft} alt="Previous" className="w-6 h-6" />
           </button>
-          <>
-            <img
-              src={block.media}
-              alt={block.heading}
-              className="w-full max-h-64 object-contain rounded-lg mb-4"
-              style={{ display: imgLoading ? "none" : "block" }}
-              onLoad={() => setImgLoading(false)}
-            />
-            {imgLoading && (
-              <div className="absolute inset-0 flex items-center justify-center">
-                <Loader />
-              </div>
-            )}
-          </>
+          {imgLoading && (
+            <div className="absolute inset-0 flex items-center justify-center min-h-[100px]">
+              <Loader />
+            </div>
+          )}
+          <img
+            src={block.media}
+            alt={block.heading}
+            className="w-full max-h-64 object-contain rounded-lg mb-4"
+            style={{ display: imgLoading ? "none" : "block" }}
+            onLoad={() => setImgLoading(false)}
+          />
           <button
             onClick={() => setIdx((idx + 1) % showcase.length)}
             className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-9 h-9 flex items-center justify-center rounded-full bg-black/30 hover:bg-cyan-400/20 text-white text-xl transition-all focus:outline-none border border-white/10"
@@ -108,3 +107,8 @@ export default function StratumModal({ open, onClose }: Props) {
     </div>
   );
 }
+
+import React from "react";
+export const LazyStratumModal = React.lazy(() => import("./StratumModal"));
+
+export default StratumModal;

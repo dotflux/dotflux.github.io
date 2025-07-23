@@ -1,12 +1,14 @@
 import { useState, useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import XelyraModal from "./XelyraModal";
-import StratumModal from "./StratumModal";
-gsap.registerPlugin(ScrollTrigger);
+import React, { Suspense } from "react";
 import { Card, CardTitle, CardContent } from "./ui/card";
 import xelyraLogo from "../assets/xelyra.png";
 import stratumLogo from "../assets/stratum.png";
+gsap.registerPlugin(ScrollTrigger);
+
+const XelyraModal = React.lazy(() => import("./XelyraModal"));
+const StratumModal = React.lazy(() => import("./StratumModal"));
 
 const Projects = () => {
   const sectionRef = useRef(null);
@@ -102,13 +104,17 @@ const Projects = () => {
         </Card>
       </div>
       {xelyraOpen && (
-        <XelyraModal open={xelyraOpen} onClose={() => setXelyraOpen(false)} />
+        <Suspense fallback={<div>Loading...</div>}>
+          <XelyraModal open={xelyraOpen} onClose={() => setXelyraOpen(false)} />
+        </Suspense>
       )}
       {stratumOpen && (
-        <StratumModal
-          open={stratumOpen}
-          onClose={() => setStratumOpen(false)}
-        />
+        <Suspense fallback={<div>Loading...</div>}>
+          <StratumModal
+            open={stratumOpen}
+            onClose={() => setStratumOpen(false)}
+          />
+        </Suspense>
       )}
       <div className="flex flex-col items-center w-full max-w-5xl mt-24 mb-0">
         <h3 className="text-2xl md:text-3xl font-bold text-white mb-2 text-center">
