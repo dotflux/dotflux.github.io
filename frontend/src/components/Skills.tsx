@@ -34,6 +34,7 @@ import godotengine from "../assets/godotengine.svg";
 import gnubash from "../assets/gnubash.svg";
 import linux from "../assets/linux.svg";
 import jinja from "../assets/jinja.svg";
+import webRtc from "../assets/webrtc.svg";
 
 const skillGroups = [
   {
@@ -55,6 +56,7 @@ const skillGroups = [
       { name: "Bootstrap", icon: bootstrap },
       { name: "React", icon: reactsvg },
       { name: "Next.js", icon: nextdotjs },
+      { name: "WebRTC", icon: webRtc },
       { name: "GSAP", icon: gsapPng },
       { name: "shadcn/ui", icon: shadcnui },
     ],
