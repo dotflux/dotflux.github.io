@@ -104,12 +104,12 @@ const Projects = () => {
         </Card>
       </div>
       {xelyraOpen && (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div></div>}>
           <XelyraModal open={xelyraOpen} onClose={() => setXelyraOpen(false)} />
         </Suspense>
       )}
       {stratumOpen && (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div></div>}>
           <StratumModal
             open={stratumOpen}
             onClose={() => setStratumOpen(false)}

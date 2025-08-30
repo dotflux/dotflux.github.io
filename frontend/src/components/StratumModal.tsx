@@ -3,11 +3,11 @@ import AngleLeft from "../assets/angleLeft.svg";
 import AngleRight from "../assets/angleRight.svg";
 import Loader from "./Loader";
 import crossIcon from "../assets/cross.svg";
-import landingPage from "../assets/stratumShowcases/landing_page.png";
-import createWorkspace from "../assets/stratumShowcases/create_workspace.png";
-import workspaces from "../assets/stratumShowcases/workspaces.png";
-import tasks from "../assets/stratumShowcases/tasks.png";
-import billing from "../assets/stratumShowcases/billing.png";
+import landingPage from "/stratumShowcases/landing_page.png";
+import createWorkspace from "/stratumShowcases/create_workspace.png";
+import workspaces from "/stratumShowcases/workspaces.png";
+import tasks from "/stratumShowcases/tasks.png";
+import billing from "/stratumShowcases/billing.png";
 
 const showcase = [
   {
