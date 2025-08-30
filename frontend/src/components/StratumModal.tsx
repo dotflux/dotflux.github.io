@@ -3,36 +3,31 @@ import AngleLeft from "../assets/angleLeft.svg";
 import AngleRight from "../assets/angleRight.svg";
 import Loader from "./Loader";
 import crossIcon from "../assets/cross.svg";
-import landingPage from "/stratumShowcases/landing_page.png";
-import createWorkspace from "/stratumShowcases/create_workspace.png";
-import workspaces from "/stratumShowcases/workspaces.png";
-import tasks from "/stratumShowcases/tasks.png";
-import billing from "/stratumShowcases/billing.png";
 
 const showcase = [
   {
     heading: "Landing Page",
-    media: landingPage,
+    media: "/stratumShowcases/landing_page.png",
     desc: "Stratum is a collaborative workspace and task management platform for teams, built with NestJS, MongoDB, React, and Vite.",
   },
   {
     heading: "Create Workspace",
-    media: createWorkspace,
+    media: "/stratumShowcases/create_workspace.png",
     desc: "Users can create and manage workspaces for different teams and projects.",
   },
   {
     heading: "Workspaces Overview",
-    media: workspaces,
+    media: "/stratumShowcases/workspaces.png",
     desc: "View and manage all your workspaces in one place.",
   },
   {
     heading: "Task Management",
-    media: tasks,
+    media: "/stratumShowcases/tasks.png",
     desc: "Create, assign, and track tasks, upload files, and manage members all in one dashboard.",
   },
   {
     heading: "Billing",
-    media: billing,
+    media: "/stratumShowcases/billing.png",
     desc: "Track your usage, manage your plan, and earn 'Strats' by completing quests within the app.",
   },
 ];
