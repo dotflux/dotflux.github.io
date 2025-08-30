@@ -7,17 +7,17 @@ import crossIcon from "../assets/cross.svg";
 const showcase = [
   {
     heading: "Landing Page",
-    media: "/xelyraShowcases/landing_page.gif",
+    media: "/xelyraShowcases/landing_page.mp4",
     desc: "A modern, Discord-inspired platform with real-time messaging, Gen AI, and extensible SDKs, Xelyra is designed to be a modern and user-friendly platform for users to interact with.",
   },
   {
     heading: "Developer Portal",
-    media: "/xelyraShowcases/developer_page.gif",
+    media: "/xelyraShowcases/developer_page.mp4",
     desc: "Powerful developer dashboard for managing your applications, bots, and integrations, Xelyra's developer portal is designed to be easy to use and understand, with a focus on simplicity and ease of use.",
   },
   {
     heading: "SDK Documentation",
-    media: "/xelyraShowcases/updated_sdk_documentation.gif",
+    media: "/xelyraShowcases/updated_sdk_documentation.mp4",
     desc: "Comprehensive, interactive SDK documentation to help you build bots and integrations quickly, Xelyra's SDK is designed to be easy to use and understand, with a focus on simplicity and ease of use.",
   },
   {
@@ -27,7 +27,7 @@ const showcase = [
   },
   {
     heading: "Rich Message Formats & Embeds",
-    media: "/xelyraShowcases/formats_and_embed.gif",
+    media: "/xelyraShowcases/formats_and_embed.mp4",
     desc: "Send messages with rich embeds, formatting, and media for a dynamic chat experience, Xelyra supports rich embeds and formatting to make your messages more engaging and interactive.",
   },
   {
@@ -42,7 +42,7 @@ const showcase = [
   },
   {
     heading: "AI-Generated Profile Pictures",
-    media: "/xelyraShowcases/xyn_changes_generated_pfp.gif",
+    media: "/xelyraShowcases/xyn_changes_generated_pfp.mp4",
     desc: "Xyn's unique feature can generate unique profile pictures, profile banners and more using AI, based on your description and set them as your profile picture all in one go!",
   },
   {
@@ -57,7 +57,7 @@ const showcase = [
   },
   {
     heading: "Natural Language Account Management",
-    media: "/xelyraShowcases/xyn_changes_name.gif",
+    media: "/xelyraShowcases/xyn_changes_name.mp4",
     desc: "Change your display name, bio, profile themes and other details just by chatting with Xyn—no forms required!",
   },
   {
@@ -152,12 +152,12 @@ const showcase = [
   },
   {
     heading: "Server Creation",
-    media: "/xelyraShowcases/create_server.gif",
+    media: "/xelyraShowcases/create_server.mp4",
     desc: "Create new servers in seconds customize everything from the name to the icon.",
   },
   {
     heading: "Friend System",
-    media: "/xelyraShowcases/add_friends.gif",
+    media: "/xelyraShowcases/add_friends.mp4",
     desc: "Add friends and grow your network with a simple, intuitive interface.",
   },
 ];
@@ -166,16 +166,21 @@ type Props = { open: boolean; onClose: () => void };
 
 export function XelyraModal({ open, onClose }: Props) {
   const [idx, setIdx] = useState(0);
-  const [imgLoading, setImgLoading] = useState(true);
+  const [mediaLoading, setMediaLoading] = useState(true);
+
   useEffect(() => {
-    setImgLoading(true);
+    setMediaLoading(true);
   }, [idx, open]);
+
   if (!open) return null;
   const block = showcase[idx];
+  const isVideo = block.media.endsWith(".mp4");
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+
       <div className="bg-[#181824] rounded-xl shadow-2xl max-w-lg w-full p-6 relative flex flex-col items-center z-10">
         <button
           onClick={onClose}
@@ -184,9 +189,11 @@ export function XelyraModal({ open, onClose }: Props) {
         >
           <img src={crossIcon} alt="Close" className="w-5 h-5" />
         </button>
+
         <div className="text-xl font-bold text-white text-center w-full mb-4">
           {block.heading}
         </div>
+
         <div className="relative w-full flex flex-col items-center min-h-[140px] justify-center">
           <button
             onClick={() =>
@@ -197,18 +204,34 @@ export function XelyraModal({ open, onClose }: Props) {
           >
             <img src={AngleLeft} alt="Previous" className="w-6 h-6" />
           </button>
-          {imgLoading && (
+
+          {mediaLoading && (
             <div className="absolute inset-0 flex items-center justify-center min-h-[100px]">
               <Loader />
             </div>
           )}
-          <img
-            src={block.media}
-            alt={block.heading}
-            className="w-full max-h-64 object-contain rounded-lg mb-4"
-            style={{ display: imgLoading ? "none" : "block" }}
-            onLoad={() => setImgLoading(false)}
-          />
+
+          {isVideo ? (
+            <video
+              src={block.media}
+              className="w-full max-h-64 object-contain rounded-lg mb-4"
+              style={{ display: mediaLoading ? "none" : "block" }}
+              autoPlay
+              loop
+              muted
+              playsInline
+              onLoadedData={() => setMediaLoading(false)}
+            />
+          ) : (
+            <img
+              src={block.media}
+              alt={block.heading}
+              className="w-full max-h-64 object-contain rounded-lg mb-4"
+              style={{ display: mediaLoading ? "none" : "block" }}
+              onLoad={() => setMediaLoading(false)}
+            />
+          )}
+
           <button
             onClick={() => setIdx((idx + 1) % showcase.length)}
             className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-9 h-9 flex items-center justify-center rounded-full bg-black/30 hover:bg-cyan-400/20 text-white text-xl transition-all focus:outline-none border border-white/10"
@@ -217,9 +240,11 @@ export function XelyraModal({ open, onClose }: Props) {
             <img src={AngleRight} alt="Next" className="w-6 h-6" />
           </button>
         </div>
+
         <div className="text-gray-300 text-base text-center mb-4 w-full">
           {block.desc}
         </div>
+
         <a
           href="https://github.com/dotflux/xelyra"
           target="_blank"
