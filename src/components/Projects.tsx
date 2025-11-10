@@ -1,3 +1,4 @@
+// Projects.tsx
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -55,52 +56,95 @@ const Projects = () => {
   const svgRef = useRef<HTMLImageElement>(null);
 
   const total = projectData.length;
-  const middleSetStart = total;
-
   const infiniteCards = [...projectData, ...projectData, ...projectData];
 
   const getRealIndex = (cardIndex: number) => {
-    return cardIndex % total;
+    return ((cardIndex % total) + total) % total;
   };
 
-  const getCardPosition = (targetIndex: number) => {
-    return middleSetStart + targetIndex;
-  };
-
-  const scrollToCardIndex = (targetIndex: number, smooth: boolean = true) => {
+  const findClosestCardPos = (targetIndex: number) => {
     const scroller = scrollerRef.current;
-    if (!scroller) return;
-    const cardsContainer = cardsRef.current;
-    if (!cardsContainer) return;
+    const container = cardsRef.current;
+    if (!scroller || !container) return null;
+    const children = Array.from(container.children) as HTMLElement[];
+    const scrollerCenter = isMobile
+      ? scroller.scrollTop + scroller.clientHeight / 2
+      : scroller.scrollLeft + scroller.clientWidth / 2;
+    let best = { idx: -1, dist: Infinity };
+    for (let i = 0; i < children.length; i++) {
+      if (getRealIndex(i) !== targetIndex) continue;
+      const el = children[i];
+      const rect = el.getBoundingClientRect();
+      const elCenter = isMobile
+        ? el.offsetTop + el.offsetHeight / 2
+        : el.offsetLeft + el.offsetWidth / 2;
+      const dist = Math.abs(elCenter - scrollerCenter);
+      if (dist < best.dist) {
+        best = { idx: i, dist };
+      }
+    }
+    return best.idx === -1 ? null : best.idx;
+  };
 
-    const targetCardIndex = getCardPosition(targetIndex);
-    const card = cardsContainer.children[targetCardIndex] as HTMLElement;
+  const scrollToCardByDomIndex = (domIndex: number, smooth = true) => {
+    const scroller = scrollerRef.current;
+    const container = cardsRef.current;
+    if (!scroller || !container) return;
+    const card = container.children[domIndex] as HTMLElement;
     if (!card) return;
-
     setIsScrolling(true);
     isProgrammaticScroll.current = true;
-
     if (isMobile) {
       const scrollerHeight = scroller.clientHeight;
-      const cardHeight = card.offsetHeight;
       const cardTop = card.offsetTop;
+      const cardHeight = card.offsetHeight;
       const target = cardTop - scrollerHeight / 2 + cardHeight / 2;
       scroller.scrollTo({ top: target, behavior: smooth ? "smooth" : "auto" });
     } else {
       const scrollerWidth = scroller.clientWidth;
-      const cardWidth = card.offsetWidth;
       const cardLeft = card.offsetLeft;
+      const cardWidth = card.offsetWidth;
       const target = cardLeft - scrollerWidth / 2 + cardWidth / 2;
       scroller.scrollTo({ left: target, behavior: smooth ? "smooth" : "auto" });
     }
+    const timeout = smooth ? 520 : 80;
+    setTimeout(() => {
+      setIsScrolling(false);
+      isProgrammaticScroll.current = false;
+      const middleStart = total;
+      const middleEnd = total * 2 - 1;
+      if (domIndex < middleStart || domIndex > middleEnd) {
+        const middleIndex = middleStart + getRealIndex(domIndex);
+        const middleCard = container.children[middleIndex] as HTMLElement;
+        if (middleCard) {
+          if (isMobile) {
+            const scrollerHeight = scroller.clientHeight;
+            const cardTop = middleCard.offsetTop;
+            const cardHeight = middleCard.offsetHeight;
+            const target = cardTop - scrollerHeight / 2 + cardHeight / 2;
+            scroller.scrollTo({ top: target, behavior: "auto" });
+          } else {
+            const scrollerWidth = scroller.clientWidth;
+            const cardLeft = middleCard.offsetLeft;
+            const cardWidth = middleCard.offsetWidth;
+            const target = cardLeft - scrollerWidth / 2 + cardWidth / 2;
+            scroller.scrollTo({ left: target, behavior: "auto" });
+          }
+        }
+      }
+    }, timeout);
+  };
 
-    setTimeout(
-      () => {
-        setIsScrolling(false);
-        isProgrammaticScroll.current = false;
-      },
-      smooth ? 600 : 100
-    );
+  const scrollToCardIndex = (targetIndex: number, smooth = true) => {
+    const container = cardsRef.current;
+    if (!container) return;
+    const closest = findClosestCardPos(targetIndex);
+    if (closest === null) {
+      const fallback = total + targetIndex;
+      scrollToCardByDomIndex(fallback, smooth);
+    } else {
+      scrollToCardByDomIndex(closest, smooth);
+    }
   };
 
   const prev = () => {
@@ -128,17 +172,23 @@ const Projects = () => {
 
   useEffect(() => {
     if (isInitialMount.current) {
-      scrollToCardIndex(index, false);
-      isInitialMount.current = false;
-    } else if (!isScrolling) {
+      const startPos = total + index;
+      setTimeout(() => {
+        scrollToCardByDomIndex(startPos, false);
+        isInitialMount.current = false;
+      }, 30);
+    } else if (!isScrolling && !isProgrammaticScroll.current) {
       scrollToCardIndex(index, true);
+    } else if (!isScrolling && isProgrammaticScroll.current) {
+      // noop
     }
   }, [index, isMobile]);
 
   useEffect(() => {
     const handleResize = () => {
       if (isScrolling) return;
-      scrollToCardIndex(index, false);
+      const middlePos = total + index;
+      scrollToCardByDomIndex(middlePos, false);
     };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -178,14 +228,14 @@ const Projects = () => {
       );
       gsap.fromTo(
         ".projects-card",
-        { scale: 0.8, opacity: 0, y: 30 },
+        { scale: 0.9, opacity: 0, y: 20 },
         {
           scale: 1,
           opacity: 1,
           y: 0,
           duration: 0.8,
           ease: "power3.out",
-          stagger: 0.1,
+          stagger: 0.06,
           scrollTrigger: {
             trigger: ".projects-card",
             start: "top 80%",
@@ -195,7 +245,7 @@ const Projects = () => {
       );
       gsap.fromTo(
         ".projects-img",
-        { scale: 0.8, opacity: 0 },
+        { scale: 0.9, opacity: 0 },
         {
           scale: 1,
           opacity: 1,
