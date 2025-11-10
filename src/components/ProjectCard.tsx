@@ -117,6 +117,10 @@ const ProjectCard = ({
         ref={overlayRef}
         className="absolute inset-0 bg-black opacity-0 pointer-events-none"
       />
+      <div
+        ref={overlayRef}
+        className="absolute inset-0 bg-black opacity-0 pointer-events-none"
+      />
       <div className="absolute bottom-0 p-3 sm:p-4 md:p-5 flex flex-col gap-1.5 sm:gap-2 z-10">
         <h3
           ref={titleRef}
